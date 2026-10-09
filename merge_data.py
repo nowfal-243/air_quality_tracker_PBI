@@ -12,6 +12,7 @@ w = w.rename(columns={
 })
 
 df = aq.merge(w, on=["city", "time"], how="inner")
+df = df.dropna(subset=["temperature", "humidity", "wind_speed", "rain"])
 
 df["rain_flag"] = (df["rain"] > 0).map({True: "Rainy", False: "Dry"})
 df["wind_band"] = pd.cut(

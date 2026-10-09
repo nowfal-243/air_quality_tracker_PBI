@@ -23,7 +23,7 @@ for city, (lat, lon) in cities.items():
         "latitude": lat,
         "longitude": lon,
         "hourly": "temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation",
-        "past_days": 7,
+        "past_days": 90,
         "forecast_days": 1,
         "timezone": "Asia/Kolkata",
     }

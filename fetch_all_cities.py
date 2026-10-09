@@ -22,7 +22,7 @@ for city, (lat, lon) in cities.items():
         "latitude": lat,
         "longitude": lon,
         "hourly": "pm2_5,pm10,us_aqi",
-        "past_days": 7,
+        "past_days": 90,
         "forecast_days": 1,
         "timezone": "Asia/Kolkata",
     }
