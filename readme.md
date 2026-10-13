@@ -15,8 +15,9 @@ Open-Meteo API → Python (fetch, clean, merge) → MySQL → Power BI
 3. Rainy hours had lower PM2.5 than dry hours in 9 of 10 cities, by about 26% on average within cities (up to 49% in Mumbai). The cleanest cities (Tirunelveli, Chennai) showed little change.
 
 ## Dashboard
-![Dashboard](powerbi/dashboard.png)
+
 ![Weather](powerbi/dashboard_weather.png)
+![Dashboard](powerbi/dashboard.png)
 
 ## Limitations
 - Analysis covers 29 Jul - 9 Oct 2026 (17,480 hourly rows across 10 cities); the weather API returned no data for 11-29 Jul, so those hours were excluded
