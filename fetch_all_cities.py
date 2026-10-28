@@ -1,5 +1,5 @@
-import requests
 import pandas as pd
+from api_utils import get_json
 
 cities = {
     "Delhi": (28.61, 77.21),
@@ -26,7 +26,7 @@ for city, (lat, lon) in cities.items():
         "forecast_days": 1,
         "timezone": "Asia/Kolkata",
     }
-    data = requests.get(url, params=params).json()
+    data = get_json(url, params)
     df = pd.DataFrame(data["hourly"])
     df["city"] = city
     all_data.append(df)

@@ -1,5 +1,5 @@
-import requests
 import pandas as pd
+from api_utils import get_json
 from datetime import date, timedelta
 
 cities = {
@@ -17,16 +17,13 @@ hourly = "temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation"
 
 frames = []
 for city, (lat, lon) in cities.items():
-    old = requests.get("https://archive-api.open-meteo.com/v1/archive", params={
+    old = get_json("https://archive-api.open-meteo.com/v1/archive", {
         "latitude": lat, "longitude": lon,
         "start_date": start.isoformat(), "end_date": archive_end.isoformat(),
-        "hourly": hourly, "timezone": "Asia/Kolkata"}).json()
-    new = requests.get("https://api.open-meteo.com/v1/forecast", params={
+        "hourly": hourly, "timezone": "Asia/Kolkata"})
+    new = get_json("https://api.open-meteo.com/v1/forecast", {
         "latitude": lat, "longitude": lon, "hourly": hourly,
-        "past_days": 10, "forecast_days": 1, "timezone": "Asia/Kolkata"}).json()
-    if "hourly" not in old or "hourly" not in new:
-        print(city, old.get("reason"), new.get("reason"))
-        raise SystemExit("API error, try again in a minute")
+        "past_days": 10, "forecast_days": 1, "timezone": "Asia/Kolkata"})
     both = pd.concat([pd.DataFrame(old["hourly"]), pd.DataFrame(new["hourly"])])
     both = both.groupby("time", as_index=False).first()
     both["city"] = city

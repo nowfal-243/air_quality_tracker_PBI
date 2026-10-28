@@ -8,9 +8,14 @@ Python (pandas, requests) | MySQL | Excel | Power BI
 
 ## Pipeline
 Open-Meteo API → Python (fetch, clean, merge) → MySQL → Power BI
+## Database Design
+
+```
+Star schema in MySQL: fact_readings (hourly readings) joined to dim_city and dim_date.
+```
 
 ## Key Findings
-1. Delhi had the worst air (avg AQI 153.4, PM2.5 60.9 µg/m³) and Tirunelveli the best (AQI 43.3, PM2.5 8.7), so Delhi's average AQI was about 3.5x Tirunelveli's. Lucknow (101.6) and Kolkata (91.1) ranked 2nd and 3rd.
+1. Delhi had the worst air (avg AQI 164.5, PM2.5 62.6 µg/m³) and Tirunelveli the best (AQI 44.8, PM2.5 9.1), so Delhi's average AQI was about 3.7x Tirunelveli's. Lucknow (104.8) and Kolkata (91.8) ranked 2nd and 3rd.
 2. Wind speed had the clearest effect on PM2.5. In all 10 cities, windy hours (10+ km/h) had lower PM2.5 than calm hours (<5 km/h), by about 48% on average (r = -0.49 pooled).
 3. Rainy hours had lower PM2.5 than dry hours in 8 of 10 cities, by about 28% on average within cities (up to 52% in Mumbai and Kolkata). Chennai and Tirunelveli, two of the cleanest cities, showed no decrease.
 ## Dashboard
@@ -24,9 +29,9 @@ Open-Meteo API → Python (fetch, clean, merge) → MySQL → Power BI
 - Associations only, not proof of cause
 
 ## How to Run
-1. python fetch_all_cities.py
-2. python fetch_weather.py
-3. python clean_data.py
-4. python merge_data.py
-5. python load_to_mysql.py
-6. Open powerbi/air_quality_dashboard.pbix
+1. `pip install pandas requests sqlalchemy pymysql`
+2. Create a `.env` file with `MYSQL_PASSWORD=your_password` (MySQL must be running; the `air_quality` database is created automatically)
+3. `python run_pipeline.py` runs everything: fetch, clean, merge, load to MySQL, build star schema
+   - `python run_pipeline.py --skip-fetch` reuses the CSVs in `data/raw`
+   - `python run_pipeline.py --skip-db` stops after the merge step
+4. Open `powerbi/air_quality_dashboard.pbix` and refresh
